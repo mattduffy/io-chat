@@ -1,0 +1,19 @@
+{
+  "name": "udemy-chatcat",
+  "version": "1.0.0",
+  "description": "fap fap fap on the chat cat",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattduffy/udemy-chatcat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattduffy/udemy-chatcat/issues"
+  },
+  "homepage": "https://github.com/mattduffy/udemy-chatcat#readme"
+}
