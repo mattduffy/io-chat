@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mattduffy/udemy-chatcat#readme",
   "dependencies": {
     "dotenv": "2.0.0",
+    "ejs": "2.3.4",
     "express": "4.13.3"
   },
   "engines": {
