@@ -2,9 +2,10 @@
   "name": "udemy-chatcat",
   "version": "1.0.0",
   "description": "fap fap fap on the chat cat",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/mattduffy/udemy-chatcat/issues"
   },
-  "homepage": "https://github.com/mattduffy/udemy-chatcat#readme"
+  "homepage": "https://github.com/mattduffy/udemy-chatcat#readme",
+  "dependencies": {
+    "dotenv": "2.0.0",
+    "express": "4.13.3"
+  },
+  "engines": {
+    "node": "4.2.2"
+  }
 }
