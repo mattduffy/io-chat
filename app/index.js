@@ -1,5 +1,7 @@
 'use strict';
 
 module.exports = {
-  router: require('../routes')()
+  config: require('./config'),
+  router: require('./routes')(),
+  session: require('./session')
 }

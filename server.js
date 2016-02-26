@@ -1,13 +1,17 @@
 'use strict';
-const express = require('express'),
-  app = express(),
-  chatcat = require('./app');
+const chatcat = require('./app')
+  , express = require('express')
+  , app = express()
+
+
+console.log(chatcat.config);
 
 let port = process.env.PORT || 3000;
 app.set('port', port);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+app.use(chatcat.session);
 // register first of possibly many sub app routers
 // this is mounted at root /
 app.use('/', chatcat.router);
