@@ -1,5 +1,7 @@
 'use strict';
-const router = require('express').Router();
+const router = require('express').Router()
+  , db = require('../db');
+
 // Iterate through the routes object to register each route with the express Router.
 let _registerRoutes = (routes, method)=>{
   for(let key in routes) {
@@ -23,7 +25,59 @@ let route = routes => {
   return router;
 };
 
+// find a single user by id
+let findOne = (profileId)=>{
+  return db.userModel.findOne({
+    'profileId': profileId
+  });
+};
+
+// create a new user and return that instance
+let createNewUser = (profile)=>{
+  return new Promise((resolve, reject)=>{
+    let newChatUser = new db.userModel({
+      profileId: profile.id,
+      fullName: profile.displayName,
+      profilePic: profile.photos[0].value || ''
+    });
+    newChatUser.save((error)=>{
+      if(error) {
+        console.log(error);
+        reject(error);
+      } else {
+        resolve(newChatUser);
+      }
+    });
+  });
+};
+
+// The ES6 promisified version of findById
+let findById = (id)=>{
+  return new Promise((resolve, reject)=>{
+    db.userModel.findById(id, (error, user)=>{
+      if (error) {
+        reject(error);
+      } else {
+        resolve(user);
+      }
+    });
+  });
+};
+
+// Middleware function that checks to see if a user is authenticted or not.
+let isAuthenticated = (req, res, next)=>{
+  if(req.isAuthenticated()){
+    next();
+  } else {
+    res.redirect('/');
+  }
+};
+
 module.exports = {
   // ES6 shorthand key:val obj notation for route = routes
-  route
+  route,
+  findOne,
+  createNewUser,
+  findById,
+  isAuthenticated
 }

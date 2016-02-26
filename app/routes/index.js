@@ -1,6 +1,7 @@
 'use strict';
-const router = require('express').Router(),
-  h = require('../helpers');
+const router = require('express').Router()
+  , h = require('../helpers')
+  , passport = require('passport')
 
 module.exports = ()=>{
   // GET Routes
@@ -9,20 +10,23 @@ module.exports = ()=>{
       'pageTitle': "this sucks"
     });
   });
-  router.get('/rooms', (req, res, next)=>{
-    res.render('rooms', {});
-  });
-  router.get('/chatroom/:id', (req, res, next)=>{
-    res.render('chatroom', {});
-  });
-  router.get('/getsession', (req, res, next)=>{
-    res.send('My favorite color: ' + req.session.favColor);
-  });
-  router.get('/setsession', (req, res, next)=>{
-    req.session.favColor = req.query['color'] || 'blue';
-    console.log("req query: ", req.query);
-    console.log("req params: ", req.params);
-    res.send("My favorite color has been set.");
+  router.get('/rooms', [h.isAuthenticated, (req, res, next)=>{
+    res.render('rooms', {user: req.user});
+  }]);
+  router.get('/chatroom/:id', [h.isAuthenticated, (req, res, next)=>{
+    res.render('chatroom', {
+      user: req.user,
+      topic: "Dynamic Text Here"
+    });
+  }]);
+  router.get('/auth/facebook', passport.authenticate('facebook'));
+  router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/rooms',
+    failureRedirect: '/'
+  }));
+  router.get('/logout', (req, res, next)=>{
+    req.logout();
+    res.redirect('/');
   });
 
   // POST Routes
