@@ -3,7 +3,7 @@ const router = require('express').Router()
   , h = require('../helpers')
   , passport = require('passport')
 
-module.exports = ()=>{
+module.exports = (cfg)=>{
   // GET Routes
   router.get('/', (req, res, next)=>{
     res.render('login', {
@@ -11,7 +11,11 @@ module.exports = ()=>{
     });
   });
   router.get('/rooms', [h.isAuthenticated, (req, res, next)=>{
-    res.render('rooms', {user: req.user});
+    res.render('rooms', {
+      user: req.user,
+      host: cfg.HOST,
+      port: cfg.PORT
+    });
   }]);
   router.get('/chatroom/:id', [h.isAuthenticated, (req, res, next)=>{
     res.render('chatroom', {

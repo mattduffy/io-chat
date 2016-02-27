@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mattduffy/udemy-chatcat#readme",
   "dependencies": {
+    "babel-standalone": "6.4.4",
     "connect-mongo": "1.1.0",
     "dotenv": "2.0.0",
     "ejs": "2.3.4",
@@ -27,7 +28,8 @@
     "passport": "0.3.2",
     "passport-amazon": "1.0.0",
     "passport-facebook": "2.0.0",
-    "passport-twitter": "1.0.3"
+    "passport-twitter": "1.0.3",
+    "socket.io": "1.4.4"
   },
   "engines": {
     "node": "4.2.2"

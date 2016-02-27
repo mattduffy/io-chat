@@ -1,6 +1,7 @@
 'use strict';
 const router = require('express').Router()
-  , db = require('../db');
+  , db = require('../db')
+  , crypto = require('crypto');
 
 // Iterate through the routes object to register each route with the express Router.
 let _registerRoutes = (routes, method)=>{
@@ -73,11 +74,30 @@ let isAuthenticated = (req, res, next)=>{
   }
 };
 
+// Find a chatroom by a given name.
+let findRoomByName = (allrooms, room)=>{
+  let findRoom = allrooms.findIndex((element, index, array)=>{
+    if(room == element.room){
+      return true;
+    } else {
+      return false;
+    }
+  });
+  return findRoom > -1 ? true : false;
+};
+
+// A function that generates a unique room id
+let randomHex = ()=>{
+  return crypto.randomBytes(24).toString('hex');
+};
+
 module.exports = {
   // ES6 shorthand key:val obj notation for route = routes
   route,
   findOne,
   createNewUser,
   findById,
-  isAuthenticated
+  isAuthenticated,
+  findRoomByName,
+  randomHex
 }

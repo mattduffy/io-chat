@@ -11,7 +11,7 @@ let port = process.env.PORT || 3000;
 app.set('port', port);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
+app.use(express.static('node_modules/babel-standalone'));
 app.use(chatcat.session);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -21,6 +21,6 @@ app.use('/', chatcat.router);
 //app.use('/dashboard', dashboard.router);
 //app.use('/api', api.router);
 
-app.listen(port, ()=>{
+chatcat.ioServer(app).listen(port, ()=>{
   console.log("Chat cat listening on port ", port);
 });

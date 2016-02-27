@@ -1,6 +1,6 @@
 'use strict';
 let app_cfg = require('dotenv').config();
-app_cfg.host = process.env.host || 'localhost';
+app_cfg.HOST = process.env.HOST || 'localhost';
 
 // create module specific key value entries in the config obj.
 // Passport Facebook entries.
@@ -8,7 +8,7 @@ app_cfg.host = process.env.host || 'localhost';
 let fb = {
  'clientID': app_cfg.fb_app_id,
  'clientSecret': app_cfg.fb_app_secret,
- 'callbackURL': "//"+ app_cfg.host +":"+ app_cfg.PORT +"/auth/facebook/callback",
+ 'callbackURL': "//"+ app_cfg.HOST +":"+ app_cfg.PORT +"/auth/facebook/callback",
  'profileFields': ['id', 'displayName', 'photos']
 };
 // delete original Facebook env vars after coalescing.
