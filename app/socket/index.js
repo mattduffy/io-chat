@@ -38,6 +38,9 @@ module.exports = (io, app)=>{
       //console.log("somebody joined a room: ", data);
       let userList = h.addUserToRoom(allrooms, data, socket);
       console.log("userList: ", userList);
+      // broadcast emit the updated userlist to all users connected to this room.
+      socket.broadcast.to(data.roomId).emit('updateUsersList', JSON.stringify(userList));
+      socket.emit('updateUsersList', JSON.stringify(userList));
     });
   });
 };

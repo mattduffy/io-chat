@@ -22,6 +22,7 @@
 			let user = "<%= user.fullName %>";
 			let userPic = "<%= user.profilePic %>";
 
+			let chatUsers = $('.chatUsers');
 			let newPost = $('input[name="userInput"]').val();
 
 			socket.on('connect', (socket)=>{
@@ -31,6 +32,22 @@
 				roomId,
 				user,
 				userPic
+			});
+
+			let userList = (user)=>{
+				return `<div class="userBlock">
+					<div class="userPic"><img src="${user.userPic}" alt="${user.user}"></div>
+					<div class="cuserName">${user.user}</div>
+				</div>`;
+			};
+			socket.on('updateUsersList', (data)=>{
+				let parsedData = JSON.parse(data);
+				console.log("updateUsersList: ", parsedData);
+				let userListData = '';
+				for(let user of parsedData.users){
+					userListData += userList(user);
+				}
+				chatUsers.html('').html(userListData);
 			});
 
 			socket.on('newmessage', (data)=>{
@@ -72,12 +89,12 @@
 				</div>
 			</div>
 			<div class="chatUsers">
-			<!-- Loop this for chat users -->
+			<!-- Loop this for chat users
 				<div class="userBlock">
 					<div class="userPic"><img src="<%= user.profilePic %>" alt="<%= user.fullName %>"></div>
 					<div class="cuserName"><%= user.fullName %></div>
 				</div>
-			<!-- loop end -->
+			loop end -->
 			</div>
 		</div>
 	</div>
