@@ -23,6 +23,7 @@ module.exports = (cfg)=>{
     // Render if it is found, redirect if not found.
     let getRoom = h.findRoomById(req.app.locals.chatrooms, req.params.id);
     if(undefined == getRoom) {
+      console.log("what the heck happened?");
       //return next();
       res.status(404);
       res.render('rooms', {
@@ -35,12 +36,13 @@ module.exports = (cfg)=>{
         }
       });
     } else {
+      console.log("getRoom obj: ", getRoom);
       res.render('chatroom', {
         host: cfg.HOST,
         port: cfg.PORT,
         user: req.user,
         topic: getRoom.room,
-        roomId: getRoom.id
+        roomId: getRoom.roomId
       });
     }
   }]);

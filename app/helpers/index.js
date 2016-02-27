@@ -95,7 +95,42 @@ let findRoomById = (allrooms, id)=>{
       return null;
     }
   });
+  //console.log("h.findRoomById: ", allrooms[findRoom]);
   return allrooms[findRoom];
+};
+
+// Add a user to a chatroom
+let addUserToRoom = (allrooms, data, socket)=>{
+  //Get the room obj
+
+  let getRoom = findRoomById(allrooms, data.roomId);
+  if(undefined !== getRoom) {
+    // Get the active user's ID (ObjectID from the session).
+    let userId = socket.request.session.passport.user;
+    //Check to see if user already exists in the chatroom.
+    let checkUser = getRoom.users.findIndex((element, index, array)=>{
+      if(userId === element.userId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    // If the user is already present in the room, remove first.
+    if(checkUser > -1) {
+      getRoom.users.splice(checkUser, 1);
+    }
+    // Push the user into the chat room.
+    getRoom.users.push({
+      socketId: socket.id,
+      userId,
+      user: data.user,
+      userPic: data.userPic
+    });
+    // Join the room channel
+    socket.join(data.roomId);
+    return getRoom;
+  }
+
 };
 
 // A function that generates a unique room id
@@ -112,5 +147,6 @@ module.exports = {
   isAuthenticated,
   findRoomByName,
   findRoomById,
+  addUserToRoom,
   randomHex
 }

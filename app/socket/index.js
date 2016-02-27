@@ -10,13 +10,14 @@ module.exports = (io, app)=>{
       socket.emit('chatRoomsList', JSON.stringify(allrooms));
     });
     socket.on('createNewRoom', (data)=>{
-      console.log(data);
+      console.log('createNewRoom: ', data);
       if(!h.findRoomByName(allrooms, data.newRoom)){
         allrooms.push({
           'room': data.newRoom,
           'roomId': h.randomHex(),
           'users': []
         });
+        console.log(allrooms );
         // Emit updated room list to room creator.
         socket.emit('chatRoomsList', JSON.stringify(allrooms));
         // Emit update room list to all other chatcat users.
@@ -27,6 +28,16 @@ module.exports = (io, app)=>{
           'msg': `"${data.newRoom} is already in use. Pick a new room name."`
         });
       }
+    });
+  });
+
+  io.of('/chatter').on('connection', (socket)=>{
+    // Listen for events on the chatter namespace for messages in an individual chat room.
+    console.log("client has connected to chatter.");
+    socket.on('join', (data)=>{
+      //console.log("somebody joined a room: ", data);
+      let userList = h.addUserToRoom(allrooms, data, socket);
+      console.log("userList: ", userList);
     });
   });
 };
