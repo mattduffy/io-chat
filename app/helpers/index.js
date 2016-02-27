@@ -86,6 +86,18 @@ let findRoomByName = (allrooms, room)=>{
   return findRoom > -1 ? true : false;
 };
 
+// Find a chatroom by a given id.
+let findRoomById = (allrooms, id)=>{
+  let findRoom = allrooms.findIndex((element, index, array)=>{
+    if(id == element.roomId){
+      return element;
+    } else {
+      return null;
+    }
+  });
+  return allrooms[findRoom];
+};
+
 // A function that generates a unique room id
 let randomHex = ()=>{
   return crypto.randomBytes(24).toString('hex');
@@ -99,5 +111,6 @@ module.exports = {
   findById,
   isAuthenticated,
   findRoomByName,
+  findRoomById,
   randomHex
 }

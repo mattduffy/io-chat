@@ -14,14 +14,35 @@ module.exports = (cfg)=>{
     res.render('rooms', {
       user: req.user,
       host: cfg.HOST,
-      port: cfg.PORT
+      port: cfg.PORT,
+      err: {}
     });
   }]);
   router.get('/chatroom/:id', [h.isAuthenticated, (req, res, next)=>{
-    res.render('chatroom', {
-      user: req.user,
-      topic: "Dynamic Text Here"
-    });
+    // Find a chatroom by a give query param id.
+    // Render if it is found, redirect if not found.
+    let getRoom = h.findRoomById(req.app.locals.chatrooms, req.params.id);
+    if(undefined == getRoom) {
+      //return next();
+      res.status(404);
+      res.render('rooms', {
+        user: req.user,
+        host: cfg.HOST,
+        port: cfg.PORT,
+        err: {
+          error_code: "404",
+          msg: "Can't find the requested chatroom."
+        }
+      });
+    } else {
+      res.render('chatroom', {
+        host: cfg.HOST,
+        port: cfg.PORT,
+        user: req.user,
+        topic: getRoom.room,
+        roomId: getRoom.id
+      });
+    }
   }]);
   router.get('/auth/facebook', passport.authenticate('facebook'));
   router.get('/auth/facebook/callback', passport.authenticate('facebook', {
