@@ -130,8 +130,27 @@ let addUserToRoom = (allrooms, data, socket)=>{
     socket.join(data.roomId);
     return getRoom;
   }
-
 };
+
+//Remove a user from a chatroom
+let removeUserFromRoom = (allrooms, socket)=>{
+  for(let room of allrooms){
+    //Find the user
+    let findUser = room.users.findIndex((element, index, array)=>{
+      if(socket.id === element.users.socketId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if(findUser > -1){
+      socket.leave(room.roomId);
+      room.users.splice(findUser, 1);
+      return room;
+    }
+  }
+};
+
 
 // A function that generates a unique room id
 let randomHex = ()=>{
@@ -148,5 +167,6 @@ module.exports = {
   findRoomByName,
   findRoomById,
   addUserToRoom,
+  removeUserFromRoom,
   randomHex
 }

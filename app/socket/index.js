@@ -42,5 +42,17 @@ module.exports = (io, app)=>{
       socket.broadcast.to(data.roomId).emit('updateUsersList', JSON.stringify(userList));
       socket.emit('updateUsersList', JSON.stringify(userList));
     });
+
+    // New message event
+    socket.on('newMessage', (data)=>{
+      socket.broadcast.to(data.roomId).emit('inMessage', JSON.stringify(data));
+    });
+
+    // Disconnect when a user leaves the chatroom
+    socket.on('Disconnect', ()=>{
+      // Find the room to which the user is connected and purge the user.
+      let room = h.removeUserFromRoom(allrooms, socket);
+      socket.broadcast.to(room.roomId).emit('updateUsersList', JSON.stringify(room.users));
+    });
   });
 };
