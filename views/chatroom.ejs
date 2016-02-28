@@ -17,7 +17,7 @@
 		$(()=>{
 			let uId =  "<%= user.id %>";
 			let host = "http://<%= host %>:<%= port %>/chatter";
-			let socket = io(host);
+			let socket = io(host, {'transports': ['websocket']});
 			let roomId = "<%= roomId %>";
 			let user = "<%= user.fullName %>";
 			let userPic = "<%= user.profilePic %>";

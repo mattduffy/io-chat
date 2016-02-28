@@ -17,7 +17,7 @@
 		$(()=>{
 			let uId =  "<%= user.id %>";
 			let host = "http://<%= host %>:<%= port %>/roomlist";
-			let socket = io(host);
+			let socket = io(host, {'transports': ['websocket']});
 			socket.on('connect', (socket)=>{
 				console.log("connected to socket server.");
 			});
@@ -51,7 +51,7 @@
 				}
 			});
 
-			
+
 
 		});
 	</script>

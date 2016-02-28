@@ -16,4 +16,15 @@ delete app_cfg.fb_app_id;
 delete app_cfg.fb_app_secret;
 app_cfg.fb = fb;
 
+// Redis config settings
+let redisURI = require('url').parse(process.env.redisURL);
+// coalesce Redis env vars into a single rd obj
+let redis = {
+  'host': redisURI.hostname,
+  'port': redisURI.port,
+  'username': redisURI.auth.split(':')[0],
+  'password': redisURI.auth.split(':')[1]
+};
+app_cfg.redis = redis;
+
 module.exports = app_cfg;
